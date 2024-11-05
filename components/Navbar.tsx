@@ -10,7 +10,7 @@ const Navbar = () => {
   const [username, setUsername] = useState<User | null>(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
       setUsername(JSON.parse(storedUser));
     }
