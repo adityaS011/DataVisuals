@@ -14,13 +14,20 @@
         <img src="https://img.shields.io/badge/Recharts-888888?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE4AAABmCAIAAAD7jZy1AAAAOXRFWHRTb2Z0d2FyZQBNYXR0aG9vbnJhbGUgQ29yZSAyMy4zLjExOCwgaHR0cHM6Ly9tYXR0aG9vbi5vcmcvP1glPTAAAAJcEhZcwAAFBASFnoRBG5VAAAAB3RJTUUH5wYFJh4OjXTyZAAAAAElFTkSuQmCC" alt="Recharts Badge"/>
     </a>
 </div>
+---
 
+<h2 style="font-size: 2rem; font-weight: bold; margin-top: 2rem;">📸 Ideation/Approach</h2>
+
+
+<img src="https://github.com/adityaS011/DataVisuals/blob/main/public/approach.png" alt="Project Preview" style="width: 100%; border-radius: 10px; margin: 20px 0;" />
+
+---
 ---
 
 <h2 style="font-size: 2rem; font-weight: bold; margin-top: 2rem;">📸 Project Preview</h2>
 <p>Here’s a sneak peek at the amazing chart visualizations:</p>
 
-<img src="https://github.com/adityaS011/YourChartProject/blob/main/public/webScreenShot.png" alt="Project Preview" style="width: 100%; border-radius: 10px; margin: 20px 0;" />
+<img src="https://github.com/adityaS011/DataVisuals/blob/main/public/preview.png" alt="Project Preview" style="width: 100%; border-radius: 10px; margin: 20px 0;" />
 
 ---
 
