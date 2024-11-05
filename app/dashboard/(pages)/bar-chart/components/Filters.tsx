@@ -59,49 +59,49 @@ const Filters: React.FC<FiltersProps> = ({
   }, [ageFilter, genderFilter, startDate, endDate]);
 
   return (
-    <div className='flex flex-row gap-4 p-4'>
-      <label className='p-1 border rounded-lg hover:bg-slate-100 bg-slate-50 flex flex-row gap-1'>
+    <div className='grid  grid-cols-2 md:grid-cols-4 gap-4 p-4'>
+      <label className='p-2 border rounded-lg hover:bg-slate-100 bg-slate-50 flex flex-col gap-1'>
         Age:
         <select
           id='ageSelect'
           onChange={handleAgeFilterChange}
-          className='w-fit bg-slate-50'
+          className='w-full bg-slate-50'
         >
           <option value=''>All</option>
           <option value='15-25'>15-25</option>
           <option value='>25'>{`>25`}</option>
         </select>
       </label>
-      <label className='p-1 border rounded-lg hover:bg-slate-100 flex flex-row gap-1 bg-slate-50'>
+      <label className='p-2 border rounded-lg hover:bg-slate-100 bg-slate-50 flex flex-col gap-1'>
         Gender:
         <select
           id='genderSelect'
           onChange={handleGenderFilterChange}
-          className='bg-slate-50'
+          className='w-full bg-slate-50'
         >
           <option value=''>All</option>
           <option value='Male'>Male</option>
           <option value='Female'>Female</option>
         </select>
       </label>
-      <label className='p-1 border rounded-lg hover:bg-slate-100 flex flex-row gap-1 bg-slate-50'>
+      <label className='p-2 border rounded-lg hover:bg-slate-100 bg-slate-50 flex flex-col gap-1'>
         Start Date:
         <input
           id='startDateInput'
           type='date'
           name='startDate'
           onChange={handleDateChange}
-          className='bg-slate-50'
+          className='w-full bg-slate-50'
         />
       </label>
-      <label className='p-1 border rounded-lg hover:bg-slate-100 flex flex-row gap-1 bg-slate-50'>
+      <label className='p-2 border rounded-lg hover:bg-slate-100 bg-slate-50 flex flex-col gap-1'>
         End Date:
         <input
           id='endDateInput'
           type='date'
           name='endDate'
           onChange={handleDateChange}
-          className='bg-slate-50'
+          className='w-full bg-slate-50'
         />
       </label>
     </div>

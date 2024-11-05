@@ -181,7 +181,7 @@ const BarGraph: React.FC = () => {
         }}
       />
 
-      <ResponsiveContainer width='50%' height={400}>
+      <ResponsiveContainer height={400} className='w-full  md:w-1/2 z-50'>
         <BarChart
           data={chartData}
           onClick={(e) =>

@@ -4,7 +4,7 @@ import DataTable from './DataTable';
 const page = () => {
   return (
     <Suspense>
-      <div className='p-2 overflow-auto h-full'>
+      <div className='px-2 pt-6 overflow-auto h-full pb-24'>
         <DataTable />
       </div>
     </Suspense>

@@ -22,18 +22,18 @@ const Navbar = () => {
 
   return (
     <div className='w-full border-b  shadow-sm p-4 flex flex-row items-center justify-between'>
-      <div className='font-medium text-lg uppercase px-2 py-1 rounded-md bg-green-100 flex flex-row gap-2 items-center'>
+      <div className='font-medium md:text-lg uppercase px-2 py-1 rounded-md bg-green-100 flex flex-row gap-2 items-center'>
         <BsGraphDown />
         Graph n Charts
       </div>
       <div className='flex flex-row gap-4'>
-        <div className='flex flex-row items-center gap-2 px-2 rounded-md border border-gray-300 bg-blue-400  '>
+        <div className='flex flex-row items-center gap-2 px-2 rounded-md border border-gray-300 bg-green-400 hover:green-500 cursor-pointer '>
           <BiUser className='bg-slate-200 p-1 rounded-full w-6 h-6' />
           <div className='font-medium text-sm'>{username?.username}</div>
         </div>
         <button
           onClick={handleLogout}
-          className=' bg-blue-400 text-gray-700 p-2 rounded-full border flex items-center'
+          className=' bg-green-400 hover:green-500 text-gray-700 p-2 rounded-full border flex items-center cursor-pointer'
         >
           <BiLogOut className='w-4 h-4' />
         </button>

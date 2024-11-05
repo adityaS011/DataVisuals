@@ -35,7 +35,7 @@ const Sidebar = () => {
       className='
       md:w-1/6 w-full md:h-full h-auto border-e md:border-b-0 border-slate-200
       flex md:flex-col flex-row fixed md:relative bottom-0 md:pt-12 justify-evenly md:justify-start
-      md:px-4 px-2 text-gray-600 text-sm bg-white gap-4
+      md:px-4 px-2 text-gray-600 text-sm  gap-4 z-100 bg-white pb-2
     '
     >
       {sidebarItems.map((item, index) => (
