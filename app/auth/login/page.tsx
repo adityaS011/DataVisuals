@@ -22,7 +22,7 @@ const Login = () => {
   return (
     <div className='flex justify-center items-center h-screen'>
       <form
-        className='w-1/3 bg-gray-100 p-8 rounded shadow-md'
+        className='md:w-1/3 w-fit mx-4 md:mx-1 bg-gray-100 p-8 rounded shadow-md'
         onSubmit={handleLogin}
       >
         <h2 className='text-2xl font-bold mb-6'>Log In</h2>
@@ -46,7 +46,7 @@ const Login = () => {
           }
           required
         />
-        <div className='flex flex-row gap-2 items-center'>
+        <div className='flex md:flex-row flex-col gap-2 items-center'>
           <button
             type='submit'
             className='w-full bg-blue-500 text-white py-2 rounded'
