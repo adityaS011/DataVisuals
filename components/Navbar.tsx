@@ -29,7 +29,9 @@ const Navbar = () => {
       <div className='flex flex-row gap-4'>
         <div className='flex flex-row items-center gap-2 px-2 rounded-md border border-gray-300 bg-green-400 hover:green-500 cursor-pointer '>
           <BiUser className='bg-slate-200 p-1 rounded-full w-6 h-6' />
-          <div className='font-medium text-sm'>{username?.username}</div>
+          <div className='font-medium text-sm truncate w-16'>
+            {username?.username}
+          </div>
         </div>
         <button
           onClick={handleLogout}

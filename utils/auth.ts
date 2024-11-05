@@ -5,8 +5,11 @@ export type User = {
 };
 
 export const saveUser = (user: User) => {
-  if (!getUser()) {
+  const existingUser = getUser();
+  if (!existingUser || existingUser.username !== user.username) {
     sessionStorage.setItem('user', JSON.stringify(user));
+  } else {
+    console.log('User with this username already exists.');
   }
 };
 

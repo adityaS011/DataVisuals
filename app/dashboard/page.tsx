@@ -13,8 +13,10 @@ const Dashboard = () => {
   }, [router]);
 
   return (
-    <div className='flex flex-col justify-center items-center h-full  w-full'>
-      <h1 className='text-4xl font-bold mb-8'>Welcome to the Dashboard</h1>
+    <div className='flex flex-col justify-center items-center h-full w-full'>
+      <h1 className='text-2xl md:text-4xl mx-auto  flex items-center justify-center w-full font-bold mb-8'>
+        Welcome to the Dashboard
+      </h1>
       <div
         className='mx-auto p-2 bg-green-600 text-gray-200 font-medium rounded-lg hover:bg-green-700 cursor-pointer'
         onClick={() => {
