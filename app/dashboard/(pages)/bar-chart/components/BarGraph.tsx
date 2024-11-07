@@ -66,12 +66,16 @@ const BarGraph: React.FC = () => {
     startDate: string;
     endDate: string;
   }) => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams.toString());
+
     Object.entries(filters).forEach(([key, value]) => {
       if (value) {
         params.set(key, value);
+      } else {
+        params.delete(key);
       }
     });
+
     router.push(`?${params.toString()}`);
   };
 
@@ -99,7 +103,7 @@ const BarGraph: React.FC = () => {
       (['A', 'B', 'C', 'D', 'E', 'F'] as FeatureKeys[]).forEach((feature) => {
         const value = parseInt(item[feature]);
         if (!isNaN(value)) {
-          Populations[feature] += value; // This will now work without type errors
+          Populations[feature] += value;
         }
       });
     });
@@ -139,7 +143,7 @@ const BarGraph: React.FC = () => {
   };
 
   return (
-    <div className='flex flex-col w-full p-4 overflow-auto h-full pb-24'>
+    <div className='flex flex-col w-full p-4 md:overflow-hidden overflow-y-auto h-full pb-24'>
       <Filters
         ageFilter={ageFilter}
         genderFilter={genderFilter}
