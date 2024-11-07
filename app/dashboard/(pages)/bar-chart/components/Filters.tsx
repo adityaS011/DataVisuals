@@ -37,6 +37,8 @@ const Filters: React.FC<FiltersProps> = ({
     key: 'selection',
   });
 
+  const [showPicker, setShowPicker] = useState(false);
+
   const updateUrlParams = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams);
     if (value) {
@@ -107,6 +109,7 @@ const Filters: React.FC<FiltersProps> = ({
     updateUrlParams('startDate', startStr);
     updateUrlParams('endDate', endStr);
     if (startDate && endDate) setRange({ ...range, startDate, endDate });
+    setShowPicker(false);
     saveFiltersToCookies();
   };
 
@@ -152,11 +155,23 @@ const Filters: React.FC<FiltersProps> = ({
           <option value='Female'>Female</option>
         </select>
       </label>
-      <DateRangePicker
-        ranges={[range]}
-        onChange={handleDateRangeChange}
-        className='border rounded-lg'
-      />
+      <div className='relative'>
+        <button
+          onClick={() => setShowPicker(!showPicker)}
+          className='p-2 border rounded-lg bg-slate-50 hover:bg-slate-100'
+        >
+          Select Date Range
+        </button>
+        {showPicker && (
+          <div className='absolute z-10 border rounded-lg shadow-lg'>
+            <DateRangePicker
+              ranges={[range]}
+              onChange={handleDateRangeChange}
+              className='border rounded-lg'
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
