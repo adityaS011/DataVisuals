@@ -15,7 +15,7 @@ import { LineData } from '../bar-chart/components/BarGraph';
 const LineGraph = ({ lineData }: { lineData: LineData[] }) => {
   return (
     <div>
-      <ResponsiveContainer className='w-full  ' height={400}>
+      <ResponsiveContainer height={500} width={'90%'}>
         <LineChart data={lineData}>
           <Brush dataKey='date' height={30} stroke='#8884d8' />
           <CartesianGrid strokeDasharray='3 3' />

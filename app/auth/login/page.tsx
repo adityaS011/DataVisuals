@@ -3,7 +3,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { validateLogin } from '@/utils/auth';
+import { getUser, validateLogin } from '@/utils/auth';
 
 const Login = () => {
   const router = useRouter();
@@ -14,6 +14,8 @@ const Login = () => {
     if (validateLogin(formData.username, formData.password)) {
       alert('Login successful!');
       router.push('/dashboard');
+    } else if (getUser() === null) {
+      alert('Please Signup to login');
     } else {
       alert('Invalid username or password.');
     }
@@ -21,10 +23,7 @@ const Login = () => {
 
   return (
     <div className='flex justify-center items-center h-screen'>
-      <form
-        className='md:w-1/3 w-fit mx-4 md:mx-1 bg-gray-100 p-8 rounded shadow-md'
-        onSubmit={handleLogin}
-      >
+      <div className='md:w-1/3 w-fit mx-4 md:mx-1 bg-gray-100 p-8 rounded shadow-md'>
         <h2 className='text-2xl font-bold mb-6'>Log In</h2>
         <input
           className='w-full p-2 mb-4 border'
@@ -48,7 +47,7 @@ const Login = () => {
         />
         <div className='flex md:flex-row flex-col gap-2 items-center'>
           <button
-            type='submit'
+            onClick={handleLogin}
             className='w-full bg-blue-500 text-white py-2 rounded'
           >
             Log In
@@ -63,7 +62,7 @@ const Login = () => {
             Sign up
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

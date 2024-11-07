@@ -17,7 +17,7 @@ import LineGraph from '../../line-chart/LineGraph';
 
 interface ChartData {
   feature: string;
-  total: number;
+  Population: number;
 }
 export interface LineData {
   date: string;
@@ -87,7 +87,7 @@ const BarGraph: React.FC = () => {
       return isWithinDateRange && isAgeMatch && isGenderMatch;
     });
 
-    const totals: { [key in FeatureKeys]: number } = {
+    const Populations: { [key in FeatureKeys]: number } = {
       A: 0,
       B: 0,
       C: 0,
@@ -99,15 +99,17 @@ const BarGraph: React.FC = () => {
       (['A', 'B', 'C', 'D', 'E', 'F'] as FeatureKeys[]).forEach((feature) => {
         const value = parseInt(item[feature]);
         if (!isNaN(value)) {
-          totals[feature] += value; // This will now work without type errors
+          Populations[feature] += value; // This will now work without type errors
         }
       });
     });
 
-    const chartDataArray = Object.entries(totals).map(([feature, total]) => ({
-      feature,
-      total,
-    }));
+    const chartDataArray = Object.entries(Populations).map(
+      ([feature, Population]) => ({
+        feature,
+        Population,
+      })
+    );
 
     setChartData(chartDataArray);
   };
@@ -180,27 +182,31 @@ const BarGraph: React.FC = () => {
           });
         }}
       />
-
-      <ResponsiveContainer height={400} className='w-full  md:w-1/2 z-50'>
-        <BarChart
-          data={chartData}
-          onClick={(e) =>
-            e && handleBarClick(e.activePayload && e.activePayload[0].payload)
-          }
-          layout='vertical'
-          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-          barSize={30}
-        >
-          <CartesianGrid strokeDasharray='3 3' />
-          <XAxis type='number' />
-          <YAxis type='category' dataKey='feature' />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey='total' fill='#8884d8' />
-        </BarChart>
-      </ResponsiveContainer>
-
-      {selectedFeature && <LineGraph lineData={lineData} />}
+      <div className='flex flex-col md:flex-row w-full gap-2'>
+        <div className='w-full  md:w-1/2 md:mt-4'>
+          <ResponsiveContainer width={'90%'} height={500}>
+            <BarChart
+              data={chartData}
+              onClick={(e) =>
+                e &&
+                handleBarClick(e.activePayload && e.activePayload[0].payload)
+              }
+              layout='vertical'
+              barSize={30}
+            >
+              <CartesianGrid strokeDasharray='3 3' />
+              <XAxis type='number' />
+              <YAxis type='category' dataKey='feature' />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey='Population' fill='#8884d8' />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className='w-full  md:w-1/2 md:mt-4'>
+          {selectedFeature && <LineGraph lineData={lineData} />}
+        </div>
+      </div>
     </div>
   );
 };

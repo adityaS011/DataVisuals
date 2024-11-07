@@ -1,4 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { DateRangePicker } from 'react-date-range';
+import { RangeKeyDict } from 'react-date-range';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
+import Cookies from 'js-cookie';
+import { getUser, isLoggedIn } from '@/utils/auth';
 
 interface FiltersProps {
   ageFilter: string;
@@ -21,61 +28,122 @@ const Filters: React.FC<FiltersProps> = ({
   setEndDate,
   setStartDate,
 }) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [range, setRange] = useState({
+    startDate: startDate ? new Date(startDate) : new Date(),
+    endDate: endDate ? new Date(endDate) : new Date(),
+    key: 'selection',
+  });
+
+  const updateUrlParams = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    router.replace(`?${params.toString()}`);
+  };
+
+  const saveFiltersToCookies = () => {
+    const user = getUser();
+    if (user && isLoggedIn()) {
+      const userFilters = {
+        ageFilter,
+        genderFilter,
+        startDate,
+        endDate,
+      };
+      Cookies.set(`filters_${user.username}`, JSON.stringify(userFilters), {
+        expires: 30,
+      });
+    }
+  };
+
+  const loadFiltersFromCookies = () => {
+    const user = getUser();
+    if (user && isLoggedIn()) {
+      const filters = Cookies.get(`filters_${user.username}`);
+      if (filters) {
+        const parsedFilters = JSON.parse(filters);
+        setAgeFilter(parsedFilters.ageFilter);
+        setGenderFilter(parsedFilters.genderFilter);
+        setStartDate(parsedFilters.startDate);
+        setEndDate(parsedFilters.endDate);
+        setRange({
+          ...range,
+          startDate: new Date(parsedFilters.startDate),
+          endDate: new Date(parsedFilters.endDate),
+        });
+      }
+    }
+  };
+
   const handleAgeFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setAgeFilter(e.target.value);
+    const value = e.target.value;
+    setAgeFilter(value);
+    updateUrlParams('age', value);
+    saveFiltersToCookies(); // Save to cookies when changed
   };
 
   const handleGenderFilterChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    setGenderFilter(e.target.value);
+    const value = e.target.value;
+    setGenderFilter(value);
+    updateUrlParams('gender', value);
+    saveFiltersToCookies();
   };
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name === 'startDate') {
-      setStartDate(value);
-    } else {
-      setEndDate(value);
-    }
+  const handleDateRangeChange = (ranges: RangeKeyDict) => {
+    const { startDate, endDate } = ranges.selection;
+    const startStr = startDate ? startDate.toISOString().split('T')[0] : '';
+    const endStr = endDate ? endDate.toISOString().split('T')[0] : '';
+
+    setStartDate(startStr);
+    setEndDate(endStr);
+    updateUrlParams('startDate', startStr);
+    updateUrlParams('endDate', endStr);
+    if (startDate && endDate) setRange({ ...range, startDate, endDate });
+    saveFiltersToCookies();
   };
 
   useEffect(() => {
-    const ageSelect = document.getElementById('ageSelect') as HTMLSelectElement;
-    const genderSelect = document.getElementById(
-      'genderSelect'
-    ) as HTMLSelectElement;
-    const startDateInput = document.getElementById(
-      'startDateInput'
-    ) as HTMLInputElement;
-    const endDateInput = document.getElementById(
-      'endDateInput'
-    ) as HTMLInputElement;
+    loadFiltersFromCookies();
+  }, []);
 
-    if (ageSelect) ageSelect.value = ageFilter;
-    if (genderSelect) genderSelect.value = genderFilter;
-    if (startDateInput) startDateInput.value = startDate;
-    if (endDateInput) endDateInput.value = endDate;
-  }, [ageFilter, genderFilter, startDate, endDate]);
+  useEffect(() => {
+    const age = searchParams.get('age') || '';
+    const gender = searchParams.get('gender') || '';
+    const start = searchParams.get('startDate') || '';
+    const end = searchParams.get('endDate') || '';
+
+    if (age !== ageFilter) setAgeFilter(age);
+    if (gender !== genderFilter) setGenderFilter(gender);
+    if (start !== startDate) setStartDate(start);
+    if (end !== endDate) setEndDate(end);
+  }, [searchParams]);
 
   return (
-    <div className='grid  grid-cols-2 md:grid-cols-4 gap-4 p-4'>
-      <label className='p-2 border rounded-lg hover:bg-slate-100 bg-slate-50 flex flex-col gap-1'>
+    <div className='grid grid-cols-2 md:flex flex-row gap-4 p-4'>
+      <label className='p-1 h-8 text-sm border rounded-lg hover:bg-slate-100 bg-slate-50 flex flex-row items-center gap-1'>
         Age:
         <select
-          id='ageSelect'
+          value={ageFilter}
           onChange={handleAgeFilterChange}
-          className='w-full bg-slate-50'
+          className='w-fit h-fit bg-slate-50'
         >
           <option value=''>All</option>
           <option value='15-25'>15-25</option>
           <option value='>25'>{`>25`}</option>
         </select>
       </label>
-      <label className='p-2 border rounded-lg hover:bg-slate-100 bg-slate-50 flex flex-col gap-1'>
+      <label className='p-1 h-8 text-sm border rounded-lg hover:bg-slate-100 bg-slate-50 flex flex-row items-center gap-1'>
         Gender:
         <select
-          id='genderSelect'
+          value={genderFilter}
           onChange={handleGenderFilterChange}
           className='w-full bg-slate-50'
         >
@@ -84,26 +152,11 @@ const Filters: React.FC<FiltersProps> = ({
           <option value='Female'>Female</option>
         </select>
       </label>
-      <label className='p-2 border rounded-lg hover:bg-slate-100 bg-slate-50 flex flex-col gap-1'>
-        Start Date:
-        <input
-          id='startDateInput'
-          type='date'
-          name='startDate'
-          onChange={handleDateChange}
-          className='w-full bg-slate-50'
-        />
-      </label>
-      <label className='p-2 border rounded-lg hover:bg-slate-100 bg-slate-50 flex flex-col gap-1'>
-        End Date:
-        <input
-          id='endDateInput'
-          type='date'
-          name='endDate'
-          onChange={handleDateChange}
-          className='w-full bg-slate-50'
-        />
-      </label>
+      <DateRangePicker
+        ranges={[range]}
+        onChange={handleDateRangeChange}
+        className='border rounded-lg'
+      />
     </div>
   );
 };
