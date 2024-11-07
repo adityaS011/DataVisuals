@@ -33,7 +33,7 @@ const Filters: React.FC<FiltersProps> = ({
   const user = getUser();
 
   if (!user) {
-    router.push('auth/login');
+    router.push('/dashboard');
   }
 
   const updateUrlParams = (key: string, value: string) => {
